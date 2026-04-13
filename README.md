@@ -34,28 +34,30 @@ Sistema baseado em microsserviços para gestão de nutrição animal, desenvolvi
 
 ## Pré-requisitos
 
-- Java 21+
-- Maven 3.8+
-- Docker (para MongoDB e PostgreSQL)
-- Git
+- **Java 21+**
+- **Maven 3.8+**
+- **PostgreSQL** instalado localmente
+- **Docker** (apenas para o MongoDB)
+- **Git**
 
 ---
 
 ## Infraestrutura
 
-### PostgreSQL
+### RabbitMQ
+
+O projeto utiliza o **CloudAMQP** (RabbitMQ na nuvem). **Nenhuma instalação local é necessária** — a connection string já está configurada no `application.properties` de cada serviço.
+
+### PostgreSQL (instalação local)
+
+1. Certifique-se de que o PostgreSQL está rodando na porta padrão **5432**
+2. Abra o terminal/prompt e acesse o `psql`:
 
 ```bash
-docker run -d --name postgres -e POSTGRES_PASSWORD=admin -p 5432:5432 postgres:latest
+psql -U postgres
 ```
 
-Crie os dois bancos de dados — acesse o psql interativo (funciona igual no Windows, Mac e Linux):
-
-```bash
-docker exec -it postgres psql -U postgres
-```
-
-Dentro do psql, execute:
+3. Crie os dois bancos de dados:
 
 ```sql
 CREATE DATABASE "feed-management";
@@ -63,17 +65,15 @@ CREATE DATABASE "feed-cost";
 \q
 ```
 
-### MongoDB
+> **Nota:** O usuário padrão configurado é `postgres` com senha `admin`. Se sua instalação usa outra senha, ajuste o arquivo `application.properties` dentro de `feed-management-service` e `feed-cost-service` (`src/main/resources/application.properties`).
+
+### MongoDB (via Docker)
 
 ```bash
 docker run -d --name mongodb -p 27017:27017 mongo:latest
 ```
 
-> O banco `nutrition-analysis` e a collection `nutrition_analysis` são criados automaticamente pelo Spring na primeira execução.
-
-### RabbitMQ
-
-O projeto utiliza o **CloudAMQP** (RabbitMQ na nuvem). Nenhuma instalação local é necessária — a connection string já está configurada no `application.properties` de cada serviço.
+> O banco `nutrition-analysis` e a collection são criados automaticamente pelo Spring na primeira execução.
 
 ---
 
@@ -83,8 +83,23 @@ Clone o repositório:
 
 ```bash
 git clone <url-do-repositorio>
-cd teste-bovexo
+cd bovexo-nutrition-platform
 ```
+
+Abra **3 terminais** (um para cada serviço) e execute na ordem abaixo.
+
+> **Importante:** O Maven precisa usar o **Java 21**. Se você tem múltiplas versões do Java instaladas, configure o `JAVA_HOME` antes de rodar os serviços:
+> ```bash
+> # Linux / Mac
+> export JAVA_HOME=/usr/lib/jvm/java-21-openjdk
+>
+> # Windows (CMD)
+> set JAVA_HOME=C:\Program Files\Java\jdk-21
+>
+> # Windows (PowerShell)
+> $env:JAVA_HOME="C:\Program Files\Java\jdk-21"
+> ```
+> Para verificar: `mvn -version` deve mostrar **Java version: 21**.
 
 ### 1. feed-cost-service (porta 8082)
 
@@ -92,7 +107,7 @@ cd teste-bovexo
 
 ```bash
 cd feed-cost-service
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 O script `data.sql` popula automaticamente a tabela `feed_cost` com os insumos e preços.
@@ -101,14 +116,14 @@ O script `data.sql` popula automaticamente a tabela `feed_cost` com os insumos e
 
 ```bash
 cd feed-management-service
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 ### 3. nutrition-analysis-service (porta 8083)
 
 ```bash
 cd nutrition-analysis-service
-./mvnw spring-boot:run
+mvn spring-boot:run
 ```
 
 ---

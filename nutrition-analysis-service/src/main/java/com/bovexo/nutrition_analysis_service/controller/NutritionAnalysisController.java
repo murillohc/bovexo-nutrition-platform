@@ -16,12 +16,12 @@ public class NutritionAnalysisController {
     @Autowired
     NutritionAnalysisService service;
 
-    @GetMapping
+    @GetMapping("/analysis")
     public ResponseEntity<List<NutritionAnalysis>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @GetMapping("/{animalId}")
+    @GetMapping("/analysis/{animalId}")
     public ResponseEntity<List<NutritionAnalysis>>
     findByAnimalId(@PathVariable Long animalId) {
         return ResponseEntity.ok(service.findByAnimalId(animalId));
