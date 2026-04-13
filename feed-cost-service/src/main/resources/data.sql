@@ -1,0 +1,10 @@
+INSERT INTO feed_cost (id, feed_type, cost_per_kg) VALUES (gen_random_uuid(), 'MILHO', 2.50) ON CONFLICT (feed_type) DO NOTHING;
+INSERT INTO feed_cost (id, feed_type, cost_per_kg) VALUES (gen_random_uuid(), 'SOJA', 3.80) ON CONFLICT (feed_type) DO NOTHING;
+INSERT INTO feed_cost (id, feed_type, cost_per_kg) VALUES (gen_random_uuid(), 'FARELO_SOJA', 4.20) ON CONFLICT (feed_type) DO NOTHING;
+INSERT INTO feed_cost (id, feed_type, cost_per_kg) VALUES (gen_random_uuid(), 'SORGO', 2.10) ON CONFLICT (feed_type) DO NOTHING;
+INSERT INTO feed_cost (id, feed_type, cost_per_kg) VALUES (gen_random_uuid(), 'TRIGO', 2.90) ON CONFLICT (feed_type) DO NOTHING;
+INSERT INTO feed_cost (id, feed_type, cost_per_kg) VALUES (gen_random_uuid(), 'SUPLEMENTO_MINERAL', 5.50) ON CONFLICT (feed_type) DO NOTHING;
+INSERT INTO feed_cost (id, feed_type, cost_per_kg) VALUES (gen_random_uuid(), 'NUCLEO_PROTEICO', 6.75) ON CONFLICT (feed_type) DO NOTHING;
+INSERT INTO feed_cost (id, feed_type, cost_per_kg) VALUES (gen_random_uuid(), 'SAL_BRANCO', 1.20) ON CONFLICT (feed_type) DO NOTHING;
+INSERT INTO feed_cost (id, feed_type, cost_per_kg) VALUES (gen_random_uuid(), 'UREIA', 3.30) ON CONFLICT (feed_type) DO NOTHING;
+INSERT INTO feed_cost (id, feed_type, cost_per_kg) VALUES (gen_random_uuid(), 'SILAGEM_MILHO', 1.80) ON CONFLICT (feed_type) DO NOTHING;
