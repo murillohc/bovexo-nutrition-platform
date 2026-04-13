@@ -46,27 +46,27 @@ Sistema baseado em microsserviços para gestão de nutrição animal, desenvolvi
 ### PostgreSQL
 
 ```bash
-docker run -d \
-  --name postgres \
-  -e POSTGRES_PASSWORD=admin \
-  -p 5432:5432 \
-  postgres:latest
+docker run -d --name postgres -e POSTGRES_PASSWORD=admin -p 5432:5432 postgres:latest
 ```
 
-Crie os dois bancos de dados:
+Crie os dois bancos de dados — acesse o psql interativo (funciona igual no Windows, Mac e Linux):
 
 ```bash
-docker exec -it postgres psql -U postgres -c "CREATE DATABASE \"feed-management\";"
-docker exec -it postgres psql -U postgres -c "CREATE DATABASE \"feed-cost\";"
+docker exec -it postgres psql -U postgres
+```
+
+Dentro do psql, execute:
+
+```sql
+CREATE DATABASE "feed-management";
+CREATE DATABASE "feed-cost";
+\q
 ```
 
 ### MongoDB
 
 ```bash
-docker run -d \
-  --name mongodb \
-  -p 27017:27017 \
-  mongo:latest
+docker run -d --name mongodb -p 27017:27017 mongo:latest
 ```
 
 > O banco `nutrition-analysis` e a collection `nutrition_analysis` são criados automaticamente pelo Spring na primeira execução.
