@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -35,7 +36,8 @@ public class NutritionAnalysisService {
                 FeedCostResponse.class);
 
         BigDecimal totalCost = costResponse.costPerKg()
-                .multiply(BigDecimal.valueOf(event.quantity()));
+                .multiply(BigDecimal.valueOf(event.quantity()))
+                .setScale(2, RoundingMode.HALF_UP);
 
         NutritionAnalysis analysis = new NutritionAnalysis();
         analysis.setAnimalId(event.animalId());
